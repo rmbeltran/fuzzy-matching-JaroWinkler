@@ -16,12 +16,19 @@ From my experience the more fields you try to match on a single record, the bett
 
 ### Running the Algorithm
 #### This is how you would typically run the fuzzy matching query:
+In this query my goal is to get a list of fuzzy matches (non-exact matches) that have a high likelyhood of being actual matches. One of the challenges of fuzzy matching is that you must compare each record in one table to each record in abother table, which can be a very taxing query on your server. In order to remedy this we will get creative with our JOINs. 
+
+Instead of comparing each record to each other record, we will JOIN each table to the other based on the first letter of the name or if you want to be even more aggressive you can join them based on the first two letters in the name, although you will sacrifice accuracy.
+
+Also in order to ensure the algorithm performs consistently you will need to convert all fields to UPPER or LOWER case.
 ```sql
 SELECT 
-TABLE_A.FIRST_NAME, --First name from the LEFT TABLE
-TABLE_A.LAST_NAME, --Last name from the LEFT TABLE
-TABLE_A.ADDRESS_1, --First line of the address from the LEFT TABLE
-TABLE_B.FIRSTNAME, 
-TABLE_B.LAST_NAME, 
-TABLE_B.ADDRESS_LINE_1
+TABLE_A.FIRST_NAME, --First name from the LEFT TABLE (our source of truth table)
+TABLE_A.LAST_NAME, --Last name from the LEFT TABLE (our source of truth table)
+TABLE_A.ADDRESS_1, --First line of the address from the LEFT TABLE (our source of truth table)
+TABLE_B.FIRSTNAME, --First name from a RIGHT TABLE (our table with potential dupes, mismatches -could be the same table)
+TABLE_B.LAST_NAME, --First name from a RIGHT TABLE (our table with potential dupes, mismatches -could be the same table)
+TABLE_B.ADDRESS_LINE_1 --First name from a RIGHT TABLE (our table with potential dupes, mismatches -could be the same table)
+FROM TABLE_A
+JOIN TABLE_B ON (UPPER(A.NAME_INDEX_LETTER_1) = UPPER(SUBSTR(B.PARTY_NAME,1,1)))-- Convert to UPPERCASE and JOIN based on the first letter in the string
 ```
