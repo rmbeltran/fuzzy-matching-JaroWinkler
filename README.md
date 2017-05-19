@@ -35,3 +35,6 @@ WHERE UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(A.REPORTED_ORG_NAME), UPPER(B.PAR
 AND UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(TABLE_A.LAST_NAME), UPPER(TABLE_B.LASTNAME)) > 90 --You can play with the match score to ensure you have the right level of aggressiveness.
 AND UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(TABLE_A.ADDRESS_1), UPPER(TABLE_B.ADDRESS_LINE_1)) > 85
 ```
+You will be surprised at how effective the method can be. 
+
+Although a simplified description with some tweaking and experimentation you can find the right mix of fields to match that will get you the results you need.
