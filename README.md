@@ -16,7 +16,7 @@ From my experience the more fields you try to match on a single record, the bett
 
 ### Running the Algorithm
 #### This is how you would typically run the fuzzy matching query:
-...sql
+```sql
 SELECT 
 TABLE_A.FIRST_NAME, --First name from the LEFT TABLE
 TABLE_A.LAST_NAME, --Last name from the LEFT TABLE
@@ -24,4 +24,4 @@ TABLE_A.ADDRESS_1, --First line of the address from the LEFT TABLE
 TABLE_B.FIRSTNAME, 
 TABLE_B.LAST_NAME, 
 TABLE_B.ADDRESS_LINE_1
-...
+```
