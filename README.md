@@ -31,4 +31,7 @@ TABLE_B.LAST_NAME, --First name from a RIGHT TABLE (our table with potential dup
 TABLE_B.ADDRESS_LINE_1 --First name from a RIGHT TABLE (our table with potential dupes, mismatches -could be the same table)
 FROM TABLE_A
 JOIN TABLE_B ON (UPPER(A.NAME_INDEX_LETTER_1) = UPPER(SUBSTR(B.PARTY_NAME,1,1)))-- Convert to UPPERCASE and JOIN based on the first letter in the string
+WHERE UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(A.REPORTED_ORG_NAME), UPPER(B.PARTY_NAME)) > 90 --This WHERE clause limits the results to only records that are Exact or Fuzzy matches. 
+AND UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(A.CITY_NAME), UPPER(B.CITY)) > 90 --You can play with the match score to ensure you have the right level of aggressiveness.
+AND UTL_MATCH.JARO_WINKLER_SIMILARITY (UPPER(A.LINE_1_ADDRESS), UPPER(B.ADDRESS1)) > 85
 ```
